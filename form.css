@@ -24,6 +24,7 @@ header,form {
 }
 
 form input{
+	outline: none;
 	padding: 0.5rem;
 	font-size: 1.2rem;
 	border: none;
@@ -44,3 +45,96 @@ form input[type='submit']:hover {
 	background: #3498db;
 	color: #fff;
 }
+
+.users{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/*table styling*/
+/*table styling*/
+table {
+	table-layout: fixed;
+	border-collapse: collapse;
+	border: 3px solid #3498db;
+  }
+  
+  thead th:nth-child(1) {
+	width: 6%;
+  }
+  
+  thead th:nth-child(2) {
+	width: 15%;
+  }
+  
+  thead th:nth-child(3) {
+	width: 15%;
+  }
+  
+  thead th:nth-child(4) {
+	width: 15%;
+  }
+  
+  thead th:nth-child(5) {
+	width: 15%;
+  }
+  
+  thead th:nth-child(6) {
+	width: 10%;
+  }
+  
+  thead th:nth-child(7) {
+	width: 10%;
+  }
+  
+  /*td */
+  tbody td:nth-child(1) {
+	width: 6%;
+  }
+  
+  tbody td:nth-child(2) {
+	width: 15%;
+  }
+  
+  tbody td:nth-child(3) {
+	width: 15%;
+  }
+  
+  tbody td:nth-child(4) {
+	width: 15%;
+  }
+  
+  tbody td:nth-child(5) {
+	width: 15%;
+  }
+  
+  tbody td:nth-child(6) {
+	width: 10%;
+  }
+  
+  tbody td:nth-child(7) {
+	width: 10%;
+  }
+  
+  th, td {
+	padding: 5px;
+  }
+  td{
+	  text-align: center;
+	  border: 2px solid #3498db;
+	  color: #000;
+  }
+  thead{
+	   border: 3px solid #3498db;
+	   color: #000;
+  }
+  .table{
+	  height: auto;
+	  text-align: center;
+	  background: none;
+  }
+  
+

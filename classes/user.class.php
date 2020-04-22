@@ -37,9 +37,23 @@ class User implements Crud{
         return true;
     }
 
-    public function readAll(){
-        return null;
+    public function readAll($conn){
+
+        $list = "SELECT * FROM users";   
+       //create prepared statement
+       $stmt = mysqli_stmt_init($conn);
+       //prepare stmt
+
+       if (!mysqli_stmt_prepare($stmt, $list)) {
+          echo "SQL STATEMENT FAILED";
+       } else {
+
+           mysqli_stmt_execute($stmt);
+           $result = mysqli_stmt_get_result($stmt);
+        }
+        return $result;
     }
+
     public function readUnique(){
         return null;
     }
