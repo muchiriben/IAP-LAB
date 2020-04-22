@@ -1,5 +1,8 @@
 <?php
+  $error = null;
+
   include 'includes/autoloader.inc.php';
+
   $db = new DBConnector();
   $conn = $db->connect();
 
@@ -13,9 +16,9 @@
       $save_user = $user->save($conn);
 
       if($save_user){
-          echo "Save operation was successful";
+          $error = "Save operation was successful";
       } else {
-          echo "An error occured!";
+          $error = "An error occured!";
       }
   }
 ?>
@@ -23,9 +26,15 @@
 <html>
 <head>
 <title>IAP-LAB</title>
+<link rel="stylesheet" type="text/css" href="form.css">
 </head>
 <body>
-   <form method="POST" action="lab.php">
+    <header>
+        <h1>LAB ASSIGNMENT</h1>
+        <h1><?php echo $error; ?></h1>
+    </header>
+<div class="form">
+<form method="POST" action="lab.php">
       <table>
       <tr>
          <td><input type="text" name="first_name" placeholder="First Name" /></td>
@@ -44,5 +53,6 @@
       </tr>
       </table>
    </form>
+</div>   
 </body>
 </html>
