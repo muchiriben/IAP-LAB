@@ -29,19 +29,23 @@
 <head>
 <title>IAP-LAB</title>
 <link rel="stylesheet" type="text/css" href="form.css">
+<script type="text/javascript" src-"validate.js"></script>
 </head>
 <body>
     <header>
         <h1>LAB ASSIGNMENT</h1>
-        <h1><?php echo $error; ?></h1>
+        <h1 id="error_msg"><?php echo $error; ?></h1>
     </header>
 <div class="form">
-<form method="POST" action="lab.php">
-      <input type="text" name="first_name" placeholder="First Name" required/>
-      <input type="text" name="last_name" placeholder="Last Name" required/>
-      <input type="text" name="city_name" placeholder="City Name" required/>
-      <input type="submit" name="save" value="Save"/>
-   </form>
+
+<form class="myForm" method="POST" action="<?=$_SERVER['PHP_SELF'] ?>">
+      <input type="text" id="first_name" name="first_name" placeholder="First Name"/>
+      <input type="text" id="last_name" name="last_name" placeholder="Last Name" />
+      <input type="text" id="city_name" name="city_name" placeholder="City Name" />
+      <input type="submit" name="save" id="save" value="Save"/>
+</form>
+
+   <script src="./validate.js"></script>
 </div>   
 
 <div class="users">
