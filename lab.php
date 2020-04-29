@@ -13,8 +13,18 @@
       $city = $_POST['city_name'];
 
       $user = new User($first_name,$last_name,$city);
-      $save_user = $user->save($conn);
+      
+      //server side form validation
+      if(!$user->validateForm()) {
+          $user->createFormErrorSessions();
+          header("Refresh:0");
+          die();
+      }
 
+      //save user to db
+      $save_user = $user->save($conn);
+      
+      //confirmation message
       if($save_user){
           $error = "Save operation was successful";
           $db->closeDB();
@@ -29,23 +39,31 @@
 <head>
 <title>IAP-LAB</title>
 <link rel="stylesheet" type="text/css" href="form.css">
-<script type="text/javascript" src-"validate.js"></script>
 </head>
 <body>
     <header>
         <h1>LAB ASSIGNMENT</h1>
         <h1 id="error_msg"><?php echo $error; ?></h1>
+        <div class="form-errors">
+        <?php 
+        session_start();
+        if(!empty($_SESSION['form_errors'])){
+           echo " " .$_SESSION['form_errors'];
+           unset($_SESSION['form_errors']);
+        }
+        ?>
+      </div> 
     </header>
 <div class="form">
 
-<form class="myForm" method="POST" action="<?=$_SERVER['PHP_SELF'] ?>">
-      <input type="text" id="first_name" name="first_name" placeholder="First Name"/>
+<form class="myForm" method="POST" action="<?=$_SERVER['PHP_SELF'] ?>">     
+      <input type="text" id="first_name" name="first_name" placeholder="First Name required"/>
       <input type="text" id="last_name" name="last_name" placeholder="Last Name" />
       <input type="text" id="city_name" name="city_name" placeholder="City Name" />
       <input type="submit" name="save" id="save" value="Save"/>
 </form>
 
-   <script src="./validate.js"></script>
+<!--- <script src="./validate.js"></script> --->
 </div>   
 
 <div class="users">

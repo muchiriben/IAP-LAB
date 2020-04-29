@@ -1,18 +1,32 @@
 <?php
-include "includes/Crud.inc.php";
+include "includes/crud.inc.php";
+include "includes/authenticator.inc.php";
 
-class User implements Crud{
+class User implements Crud,Authenticator{
+    //objects
     private $user_id;
     private $first_name;
     private $last_name;
     private $city_name;
+    private $username;
+    private $password;
 
+    //constructor
     public function __construct($first_name,$last_name,$city_name){
         $this->first_name = $first_name;
         $this->last_name = $last_name;
         $this->city_name = $city_name;
+        $this->username = $username;
+        $this->password = $password;
     }
 
+    //static constructors(fake)
+    public static function create() {
+        $instance = new self();
+        return $instance;
+    }
+    
+    //setters and getters
     public function setUserId($user_id){
         $this->user_id = $user_id;
     }
@@ -20,18 +34,39 @@ class User implements Crud{
     public function getUserId(){
         return $this->user_id;
     }
+    
+    //username
+    public function setUsername($username){
+        $this->username = $username;
+    }
+
+    public function getUsername($username){
+        return $this->username;
+    }
+    
+    //password
+    public function setPassword($password){
+        $this->password = $password;
+    }
+
+    public function getPassword($password){
+        return $this->password;
+    }
 
     public function save($conn) {
         $fn = $this->first_name;
         $ln = $this->last_name;
         $city = $this->city_name;
-        $reg = "INSERT INTO `users`(`first_name`,`last_name`,`user_city`) VALUES(?,?,?)";
+        $uname = $this->username;
+        $this->hashPassword;
+        $pass = $this->password;
+        $reg = "INSERT INTO `users`(`first_name`,`last_name`,`user_city`) VALUES(?,?,?,?,?)";
         $stmt = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($stmt, $reg)) {
             echo "SQL error";
             exit();
           } else {
-            mysqli_stmt_bind_param($stmt, "sss", $fn,$ln,$city);
+            mysqli_stmt_bind_param($stmt, "sssss", $fn,$ln,$city,$uname,$pass);
             mysqli_stmt_execute($stmt);
           }
         return true;
@@ -69,6 +104,35 @@ class User implements Crud{
     public function removeAll(){
         return null;
     }
+
+    public function hashPassword(){
+        $this->password = password_hash($this->password,PASSWORD_DEFAULT);
+    }
+
+    public function isPasswordCorrect(){
+        
+    }
+    public function login();
+    public function logout();
+    public function createFormErrorSessions();
+
+    public function validateForm(){
+        $fn = $this->first_name;
+        $ln = $this->last_name;
+        $city = $this->city_name;
+
+        if($fn == "" || $ln == "" || $city == ""){
+            return false;
+        }
+        return true;
+    }
+
+    public function createFormErrorSessions(){
+        session_start();
+        $_SESSION['form_errors'] = "All fields are required";
+    }
+
+    
 }
 
 ?>
