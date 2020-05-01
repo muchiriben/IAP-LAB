@@ -11,8 +11,10 @@
       $first_name = $_POST['first_name'];
       $last_name = $_POST['last_name'];
       $city = $_POST['city_name'];
+      $uname = $_POST['uname'];
+      $pass = $_POST['pass'];
 
-      $user = new User($first_name,$last_name,$city);
+      $user = new User($first_name,$last_name,$city,$uname,$pass);
       
       //server side form validation
       if(!$user->validateForm()) {
@@ -60,7 +62,10 @@
       <input type="text" id="first_name" name="first_name" placeholder="First Name required"/>
       <input type="text" id="last_name" name="last_name" placeholder="Last Name" />
       <input type="text" id="city_name" name="city_name" placeholder="City Name" />
+      <input type="text" id="uname" name="uname" placeholder="User Name" />
+      <input type="password" id="pass" name="pass" placeholder="Password" />
       <input type="submit" name="save" id="save" value="Save"/>
+      <a href="login.php">Login</a>
 </form>
 
 <!--- <script src="./validate.js"></script> --->
@@ -82,7 +87,7 @@
    $conn2 = $db->connect();
 
    $fname = $lname = $cty = null; 
-   $allUsers = new User($fname,$lname,$cty);
+   $allUsers = new User($fname,$lname,$cty,null,null);
    $result = $allUsers->readAll($conn2);
    while($row = mysqli_fetch_assoc($result)) {
     $first_name = $row['first_name'];

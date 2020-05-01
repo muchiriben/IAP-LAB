@@ -12,7 +12,7 @@ class User implements Crud,Authenticator{
     private $password;
 
     //constructor
-    public function __construct($first_name,$last_name,$city_name){
+    public function __construct($first_name,$last_name,$city_name,$username,$password){
         $this->first_name = $first_name;
         $this->last_name = $last_name;
         $this->city_name = $city_name;
@@ -22,7 +22,7 @@ class User implements Crud,Authenticator{
 
     //static constructors(fake)
     public static function create() {
-        $instance = new self();
+        $instance = new self($first_name,$last_name,$city_name,$username,$password);
         return $instance;
     }
     
@@ -58,9 +58,9 @@ class User implements Crud,Authenticator{
         $ln = $this->last_name;
         $city = $this->city_name;
         $uname = $this->username;
-        $this->hashPassword;
+        $this->hashPassword();
         $pass = $this->password;
-        $reg = "INSERT INTO `users`(`first_name`,`last_name`,`user_city`) VALUES(?,?,?,?,?)";
+        $reg = "INSERT INTO `users`(`first_name`,`last_name`,`user_city`,`username`,`password`) VALUES(?,?,?,?,?)";
         $stmt = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($stmt, $reg)) {
             echo "SQL error";
@@ -109,12 +109,42 @@ class User implements Crud,Authenticator{
         $this->password = password_hash($this->password,PASSWORD_DEFAULT);
     }
 
-    public function isPasswordCorrect(){
-        
+    public function isPasswordCorrect($conn){
+        $found = false;
+
+        $sql = "SELECT * FROM users";
+        $stmt = mysqli_stmt_init($conn);
+
+        if(!mysqli_stmt_prepare($stmt, $sql)){
+            echo "Error...Failed";
+        } else{
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+        }
+
+        while($row = mysqli_fetch_array($res)) {
+            if(password_verify($this->getPassword($password),$row['password']) && $this->getUsername($username) == $row['username']) {
+                $found = true;
+            }
+        }
+    return $found;
     }
-    public function login();
-    public function logout();
-    public function createFormErrorSessions();
+
+    public function login(){
+           header("Location:private_page.php");
+    }
+
+    public function createUserSession(){
+        session_start();
+        $_SESSION['username'] = $this->getUsername($username);
+    }
+
+    public function logout(){
+        session_start();
+        unset($_SESSION['username']);
+        session_destroy();
+        header("Location:lab.php");
+    }
 
     public function validateForm(){
         $fn = $this->first_name;
