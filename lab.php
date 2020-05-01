@@ -22,18 +22,26 @@
           header("Refresh:0");
           die();
       }
-
-      //save user to db
-      $save_user = $user->save($conn);
       
-      //confirmation message
-      if($save_user){
-          $error = "Save operation was successful";
-          $db->closeDB();
+      //check if user exists
+      if($user->isUserExist($conn)){
+          $error = "Username already exists";
       } else {
-          $error = "An error occured!";
-          $db->closeDB();
+          
+       //save user to db
+       $save_user = $user->save($conn);
+       //confirmation message
+       if($save_user){
+        $error = "Save operation was successful";
+        $db->closeDB();
+       } else {
+        $error = "An error occured!";
+        $db->closeDB();
+       }
+
       }
+      
+      
   }
 ?>
 

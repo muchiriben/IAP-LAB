@@ -162,6 +162,29 @@ class User implements Crud,Authenticator{
         $_SESSION['form_errors'] = "All fields are required";
     }
 
+    public function isUserExist($conn) {
+        $uname = $this->username;
+
+        $found = false;
+
+        $sql = "SELECT * FROM users";
+        $stmt = mysqli_stmt_init($conn);
+
+        if(!mysqli_stmt_prepare($stmt, $sql)){
+            echo "Error...Failed";
+        } else{
+            mysqli_stmt_execute($stmt);
+            $res = mysqli_stmt_get_result($stmt);
+        }
+
+        while($row = mysqli_fetch_array($res)) {
+            if($this->getUsername($uname) == $row['username']) {
+                $found = true;
+            }
+        }
+    return $found;
+    }
+
     
 }
 
