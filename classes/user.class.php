@@ -143,7 +143,7 @@ class User implements Crud,Authenticator{
         session_start();
         unset($_SESSION['username']);
         session_destroy();
-        header("Location:lab.php");
+        header("Location:login.php");
     }
 
     public function validateForm(){
